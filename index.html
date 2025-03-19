@@ -1,40 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Eureka</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            color: #333;
-        }
-        .menu {
-            margin-top: 20px;
-        }
-        .menu a {
-            display: block;
-            margin: 10px 0;
-            color: #007BFF;
-            text-decoration: none;
-            font-size: 18px;
-        }
-        .menu a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>欢迎来到Eureka</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to Eureka</h1>
-    <p>Please select a feature from the menu below:</p>
-    <div class="menu">
-        <!-- 链接到 2.html -->
-        <a href="2.html">车辆架大修成本估算模型Ver2</a>
-        <!-- 可以继续添加其他功能的链接 -->
+    <div class="container">
+        <h1>欢迎来到Eureka</h1>
+        <p>请选择一个功能开始使用：</p>
+        
+        <div class="button-container">
+            <a href="standard-comparison.html" class="button">
+                <span class="button-title">标准对比</span>
+                <span class="button-description">比较不同标准之间的差异。</span>
+            </a>
+            
+            <a href="cost-estimation-mro.html" class="button">
+                <span class="button-title">成本测算模型-MRO</span>
+                <span class="button-description">计算MRO相关成本。</span>
+            </a>
+            
+            <a href="cost-estimation-icp.html" class="button">
+                <span class="button-title">成本测算模型-ICP</span>
+                <span class="button-description">计算ICP相关成本。</span>
+            </a>
+        </div>
     </div>
 </body>
 </html>
