@@ -3,14 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中马标准对比</title>
+    <title>中马轨道交通机电产业标准对比</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 自定义样式 */
+        .language-switcher {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .language-switcher button {
+            background: none;
+            border: none;
+            color: #007BFF;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .language-switcher button:hover {
+            text-decoration: underline;
+        }
+        .toc {
+            margin-bottom: 30px;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .toc ul li {
+            margin: 10px 0;
+        }
+        .toc ul li a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .toc ul li a:hover {
+            text-decoration: underline;
+        }
+        .content-section {
+            margin-bottom: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>中马标准对比</h1>
-        <p>这里是中国和马来西亚两国的轨道交通行业机电产业标准对比功能的页面。</p>
-        <a href="index.html" class="button">返回主页</a>
+        <!-- 语言切换 -->
+        <div class="language-switcher">
+            <button onclick="switchLanguage('zh')">中文</button>
+            <button onclick="switchLanguage('en')">English</button>
+        </div>
+
+        <!-- 标题 -->
+        <h1 id="title">中马轨道交通机电产业标准对比</h1>
+
+        <!-- 功能说明 -->
+        <p id="description">
+            本项目旨在为中国机电制造企业提供中马两国在轨道交通机电产业中的标准对比信息，帮助企业更好地理解马来西亚市场的技术要求，支持其出海战略。通过GitHub主页展示标准对比内容，方便技术人员、项目经理和市场人员快速查阅。
+        </p>
+
+        <!-- 目录导航 -->
+        <div class="toc">
+            <h2>目录</h2>
+            <ul>
+                <li><a href="#section1">1. 标准体系对比</a></li>
+                <li><a href="#section2">2. 机电设备技术参数对比</a></li>
+                <li><a href="#section3">3. 认证与合规要求对比</a></li>
+                <li><a href="#section4">4. 施工与验收规范对比</a></li>
+                <li><a href="#section5">5. 本地化与市场准入策略</a></li>
+                <li><a href="#section6">6. 风险分析</a></li>
+            </ul>
+        </div>
+
+        <!-- 核心内容 -->
+        <div class="content-section" id="section1">
+            <h2>1. 标准体系对比</h2>
+            <p>以下是中马两国在轨道交通机电产业标准体系的对比：</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>标准类别</th>
+                        <th>中国标准</th>
+                        <th>马来西亚标准</th>
+                        <th>差异点</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>电气系统</td>
+                        <td>GB/T 12345</td>
+                        <td>MS 12345</td>
+                        <td>电压等级不同</td>
+                    </tr>
+                    <tr>
+                        <td>信号系统</td>
+                        <td>GB/T 67890</td>
+                        <td>MS 67890</td>
+                        <td>通信协议不同</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section" id="section2">
+            <h2>2. 机电设备技术参数对比</h2>
+            <p>以下是中马两国在机电设备技术参数上的对比：</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>设备类型</th>
+                        <th>中国参数</th>
+                        <th>马来西亚参数</th>
+                        <th>差异点</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>变压器</td>
+                        <td>1000kVA</td>
+                        <td>800kVA</td>
+                        <td>容量不同</td>
+                    </tr>
+                    <tr>
+                        <td>电动机</td>
+                        <td>1500rpm</td>
+                        <td>1200rpm</td>
+                        <td>转速不同</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 其他章节内容类似，省略 -->
+
+        <!-- 外部资源链接 -->
+        <div class="content-section">
+            <h2>下载资源</h2>
+            <p>更多详细信息，请下载以下文档：</p>
+            <ul>
+                <li><a href="path/to/standard-comparison.pdf" download>中马轨道交通机电产业标准对比PDF</a></li>
+            </ul>
+        </div>
     </div>
+
+    <script>
+        // 多语言切换功能
+        const translations = {
+            zh: {
+                title: "中马轨道交通机电产业标准对比",
+                description: "本项目旨在为中国机电制造企业提供中马两国在轨道交通机电产业中的标准对比信息，帮助企业更好地理解马来西亚市场的技术要求，支持其出海战略。通过GitHub主页展示标准对比内容，方便技术人员、项目经理和市场人员快速查阅。"
+            },
+            en: {
+                title: "China-Malaysia Rail Transit Electromechanical Standards Comparison",
+                description: "This project aims to provide Chinese electromechanical manufacturing enterprises with a comparison of standards in the rail transit electromechanical industry between China and Malaysia, helping them better understand the technical requirements of the Malaysian market and supporting their overseas strategies. The standard comparison content is displayed on the GitHub homepage for easy access by technical personnel, project managers, and market personnel."
+            }
+        };
+
+        function switchLanguage(lang) {
+            document.getElementById('title').textContent = translations[lang].title;
+            document.getElementById('description').textContent = translations[lang].description;
+        }
+    </script>
 </body>
 </html>
