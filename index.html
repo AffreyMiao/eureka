@@ -3,275 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>车辆成本估算模型</title>
+    <title>Welcome to Eureka</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
+            text-align: center;
+            padding: 50px;
         }
-        .section {
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        h1 {
+            color: #333;
         }
-        .form-group {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input, select, button {
-            padding: 8px;
-            margin: 5px 0;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .result-table {
+        .menu {
             margin-top: 20px;
-            width: 100%;
-            border-collapse: collapse;
         }
-        .result-table th, .result-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        .result-table th {
-            background-color: #f2f2f2;
-        }
-        footer {
-            margin-top: 30px;
-            padding: 10px;
-            text-align: center;
-            border-top: 1px solid #ccc;
-            font-size: 0.9em;
-            color: #666;
-        }
-        hr {
-            border: none;
-            border-top: 2px solid #007BFF;
-            margin: 20px 0;
-        }
-        #ratioEstimateResult {
-            margin-top: 15px;
-            font-weight: bold;
+        .menu a {
+            display: block;
+            margin: 10px 0;
             color: #007BFF;
+            text-decoration: none;
+        }
+        .menu a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>车辆架大修成本估算模型</h1>
-    <hr>
-
-    <div class="section">
-        <h2>请输入参数</h2>
-        <div class="form-group">
-            <label for="vehicleType">车辆类型及数量:</label>
-            <select id="vehicleType" required>
-                <option value="">请选择车辆类型</option>
-                <option value="EMU">动车组</option>
-                <option value="UrbanRail">城轨列车</option>
-            </select>
-             <div class="quantity-inputs">
-                <input type="number" id="numberOfTrains" placeholder="请输入总列数" min="1" required>
-                <input type="number" id="carsPerTrain" placeholder="请输入每列编组节数" min="1" required>
-            </div>         
-        </div>
-      
-        <div class="form-group">
-            <label>架大修成本输入（每节）</label>
-            <div class="cost-inputs">
-                <input type="number" id="mediumRepairCost" placeholder="请输入架修成本（元/节/次）" min="1" required>
-                <input type="number" id="overhaulCost" placeholder="请输入大修成本（元/节/次）" min="1" required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="commissioningYear">新交付年份:</label>
-            <input type="number" id="commissioningYear" placeholder="请输入新交付年份" min="2000" required>
-        </div>
-
-
-        <div class="form-group">
-            <label for="frameRepairCycle">架修周期（修程年数）:</label>
-            <input type="number" id="frameRepairCycle" placeholder="请输入架修周期" min="1" required>
-        </div>
-
-        <div class="form-group">
-            <label for="majorRepairCycle">大修周期（修程年数）:</label>
-            <input type="number" id="majorRepairCycle" placeholder="请输入大修周期" min="1" required>
-        </div>
-
-        <div class="form-group">
-            <label for="productionCost">每节生产成本（元）:</label>
-            <input type="number" id="productionCost" placeholder="请输入每节生产成本" min="1">
-        </div>
-
-        <button onclick="calculateCost()">计算成本</button>
+    <h1>Welcome to Eureka</h1>
+    <p>Please select a feature from the menu below:</p>
+    <div class="menu">
+        <a href="index.html">车辆架大修成本估算模型Ver2</a>
+        <!-- Add more links here as you add more features -->
     </div>
-
-    <hr>
-
-    <div class="section" id="resultSection" style="display: none;">
-        <h2>成本估算结果</h2>
-        <table class="result-table">
-            <thead>
-                <tr>
-                    <th>年份</th>
-                    <th>维修类型</th>
-                    <th>单节成本（元）</th>
-                    <th>单列车成本（元）</th>
-                    <th>总列成本（元）</th>
-                </tr>
-            </thead>
-            <tbody id="resultTableBody"></tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="4">总成本</td>
-                    <td id="totalCost">TBD</td>
-                </tr>
-            </tfoot>
-        </table>
-        <div id="errorMessage" style="color: red;"></div>
-        <div id="ratioEstimateResult"></div>
-    </div>
-
-    <hr>
-
-    <footer>
-        <div>
-            <p>版权所有 2025 &copy; Yao. 版本号：1.0</p>
-            <p align="left">更新记录：
-                <br> - 2025/02/19: 初创
-                <br> - 2025/02/20: 添加编组节数输入功能
-                <br> - 2025/02/20: 增加版权信息
-                <br> - 2025/02/20: 移除新交付年份限制
-                <br> - 2025/02/20: 增加用户自定义架修和大修周期
-                <br> - 2025/02/20: 增加每节生产成本输入框及比例估算功能
-                <br> - 2025/02/20: 优化UI             
-            </p>
-        </div>
-    </footer>
-
-    <script>
-        function calculateCost() {
-            // 获取输入值
-            const vehicleType = document.getElementById('vehicleType').value;
-            const overhaulCost = parseFloat(document.getElementById('overhaulCost').value);
-            const mediumRepairCost = parseFloat(document.getElementById('mediumRepairCost').value);
-            const commissioningYear = parseInt(document.getElementById('commissioningYear').value);
-            const numberOfTrains = parseInt(document.getElementById('numberOfTrains').value);
-            const carsPerTrain = parseInt(document.getElementById('carsPerTrain').value);
-            const frameRepairCycle = parseInt(document.getElementById('frameRepairCycle').value);
-            const majorRepairCycle = parseInt(document.getElementById('majorRepairCycle').value);
-            const productionCost = parseFloat(document.getElementById('productionCost').value);
-
-            // 验证输入
-            if (!vehicleType || isNaN(overhaulCost) || isNaN(mediumRepairCost) || 
-                isNaN(commissioningYear) || isNaN(numberOfTrains) || isNaN(carsPerTrain) || 
-                isNaN(frameRepairCycle) || isNaN(majorRepairCycle)) {
-                alert('请检查输入字段，确保所有必填字段填写完整且有效。');
-                return;
-            }
-
-            const startYear = commissioningYear;
-            const endYear = startYear + 25;
-            let totalCost = 0;
-            let frameRepairCount = 0;
-            let majorRepairCount = 0;
-
-            // 清空结果
-            document.getElementById('resultTableBody').innerHTML = '';
-            document.getElementById('totalCost').textContent = '0';
-            document.getElementById('resultSection').style.display = 'block';
-            document.getElementById('errorMessage').textContent = '';
-            document.getElementById('ratioEstimateResult').textContent = '';
-
-            // 计算大修和架修成本
-            const repairHistory = {
-                '大修': [],
-                '架修': []
-            };
-
-            // 大修
-            for (let year = startYear + majorRepairCycle; year < endYear; year += majorRepairCycle) {
-                repairHistory['大修'].push(year);
-                majorRepairCount++;
-            }
-
-            // 架修
-            for (let year = startYear + frameRepairCycle; year < endYear; year += frameRepairCycle) {
-                // 如果某年已经有大修，则不进行架修
-                if (!repairHistory['大修'].includes(year)) {
-                    repairHistory['架修'].push(year);
-                    frameRepairCount++;
-                }
-            }
-
-            // 构建维修计划
-            const allRepairEvents = [];
-            for (const repairType in repairHistory) {
-                repairHistory[repairType].forEach((year, index) => {
-                    allRepairEvents.push({
-                        year: year,
-                        type: repairType,
-                        singleCarCost: repairType === '大修' ? overhaulCost : mediumRepairCost
-                    });
-                });
-            }
-
-            // 按年份排序
-            allRepairEvents.sort((a, b) => a.year - b.year);
-
-            // 生成表格
-            const tbody = document.getElementById('resultTableBody');
-            allRepairEvents.forEach(event => {
-                const singleCarCost = event.singleCarCost;
-                const singleTrainCost = singleCarCost * carsPerTrain;
-                const totalTrainCost = singleTrainCost * numberOfTrains;
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${event.year}</td>
-                    <td>${event.type}</td>
-                    <td>${singleCarCost.toLocaleString('zh-CN')}</td>
-                    <td>${singleTrainCost.toLocaleString('zh-CN')}</td>
-                    <td>${totalTrainCost.toLocaleString('zh-CN')}</td>
-                `;
-                tbody.appendChild(row);
-                totalCost += totalTrainCost;
-            });
-
-            // 显示总成本
-            document.getElementById('totalCost').textContent = totalCost.toLocaleString('zh-CN');
-
-            // 计算比例估算成本
-            if (!isNaN(productionCost) && productionCost > 0) {
-                const ratioEstimate = (
-                    productionCost * frameRepairCount * 0.1 * carsPerTrain * numberOfTrains +
-                    productionCost * majorRepairCount * 0.2 * carsPerTrain * numberOfTrains
-                );
-                document.getElementById('ratioEstimateResult').textContent = 
-                    `以新造成本的10%、20%比例计算架大修金额为：${ratioEstimate.toLocaleString('zh-CN')}元。`;
-            }
-        }
-    </script>
 </body>
 </html>
