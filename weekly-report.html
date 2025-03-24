@@ -21,9 +21,27 @@
 <body>
 
     <h1>2025年<span id="monthNumber"></span> 月第<span id="weekNumber"></span> 周工作简报</h1>
-    <p><strong>汇报人：</strong>姚杰 | 部门：系统工程部</p>
-    <p><strong>工作范围：</strong> 马来西亚本地化，国际业务支持···</p>
+ 
+    <script>
+        // 获取当前日期
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1; // 月份从0开始，所以要加1
+        const day = today.getDate();
 
+        // 计算当天是本月第几周
+        const firstDayOfMonth = new Date(year, month - 1, 1);
+        const pastDaysOfMonth = (today - firstDayOfMonth) / (1000 * 60 * 60 * 24);
+        const weekNumber = Math.ceil((pastDaysOfMonth + firstDayOfMonth.getDay() + 1) / 7);
+
+        // 更新HTML中的内容
+        document.getElementById('monthNumber').textContent = month;
+        document.getElementById('weekNumber').textContent = weekNumber;
+    </script>
+
+
+    
+    <p><strong>汇报人：</strong>姚杰 | 部门：系统工程部</p>
 
         <h2>📊 本周工作完成</h2>
         <b>1.ETS3项目</b>
@@ -91,24 +109,6 @@
         ② 微信直接打开</p>
     </div>
 
- <script>
-        // 获取当前日期
-        const today = new Date();
-
-     
-     const monthNumber = today.getMonth();   
-        // 获取本月的第一天
-        const firstDayOfMonth = new Date(today.getFullYear(), , 1);
-     
-        // 计算当前日期是本月的第几天
-        const pastDaysOfMonth = (today - firstDayOfMonth) / (1000 * 60 * 60 * 24);
-
-        // 计算当前是本月的第几周
-        const weekNumber = Math.ceil((pastDaysOfMonth + firstDayOfMonth.getDay() + 1) / 7);
-
-        // 将结果显示在页面中
-        document.getElementById('weekNumber').textContent = weekNumber;
-    </script>
     
 </body>
 </html>
