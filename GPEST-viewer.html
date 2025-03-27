@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国别GPEST信息速查</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f6fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .country-selector {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        select {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 25px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:hover {
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .gpest-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .info-item.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .gpest-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="country-selector">
+            <select id="countrySelect">
+                <option value="china">中国</option>
+                <option value="usa">美国</option>
+                <option value="germany">德国</option>
+                <option value="japan">日本</option>
+            </select>
+        </div>
+
+        <div class="gpest-container" id="gpestContent">
+            <!-- 动态生成内容 -->
+        </div>
+    </div>
+
+    <script>
+        const gpestData = {
+            china: {
+                G: {
+                    title: "地理环境",
+                    items: ["面积：960万平方公里", "首都：北京", "气候：多样气候", "地形：西高东低"]
+                },
+                P: {
+                    title: "政治法律",
+                    items: ["政体：社会主义制度", "执政党：中国共产党", "法律体系：大陆法系"]
+                },
+                E: {
+                    title: "经济环境",
+                    items: ["GDP：17.7万亿美元", "货币：人民币", "主要产业：制造业"]
+                },
+                S: {
+                    title: "社会文化",
+                    items: ["人口：14亿", "官方语言：普通话", "识字率：96.8%"]
+                },
+                T: {
+                    title: "技术环境",
+                    items: ["5G覆盖率：90%", "专利申请量：全球第一", "科技投入：GDP 2.4%"]
+                }
+            },
+            // 其他国家的数据结构类似...
+        };
+
+        function initPage() {
+            const container = document.getElementById('gpestContent');
+            const categories = ['G', 'P', 'E', 'S', 'T'];
+            const colors = ['#1abc9c', '#e74c3c', '#2ecc71', '#9b59b6', '#f1c40f'];
+
+            categories.forEach((cat, index) => {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <div class="category-header">
+                        <div class="category-icon" style="background: ${colors[index]}">${cat}</div>
+                        <h2></h2>
+                    </div>
+                    <div class="info-container"></div>
+                `;
+                container.appendChild(card);
+            });
+
+            updateContent('china');
+            setupEventListeners();
+        }
+
+        function updateContent(country) {
+            const data = gpestData[country];
+            const cards = document.querySelectorAll('.category-card');
+
+            cards.forEach((card, index) => {
+                const category = categories[index];
+                const infoContainer = card.querySelector('.info-container');
+                infoContainer.innerHTML = data[category].items
+                    .map(item => `<div class="info-item">${item}</div>`)
+                    .join('');
+
+                card.querySelector('h2').textContent = data[category].title;
+            });
+        }
+
+        function setupEventListeners() {
+            // 国家选择器事件
+            document.getElementById('countrySelect').addEventListener('change', function(e) {
+                updateContent(e.target.value);
+            });
+
+            // 卡片点击事件
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const items = this.querySelectorAll('.info-item');
+                    items.forEach(item => item.classList.toggle('active'));
+                });
+            });
+        }
+
+        // 初始化页面
+        const categories = ['G', 'P', 'E', 'S', 'T'];
+        initPage();
+    </script>
+</body>
+</html>
