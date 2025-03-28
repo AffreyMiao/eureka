@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的博客</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>我的个人博客</h1>
+        <p>分享知识与见解</p>
+    </header>
+    
+    <ul id="postList" class="post-list">
+        <!-- 文章列表将在这里动态生成 -->
+    </ul>
+    
+    <footer>
+        <p>© 2025 我的博客. 所有文章均为原创.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('docs/posts.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应不正常');
+                    }
+                    return response.json();
+                })
+                .then(posts => {
+                    displayPosts(posts);
+                })
+                .catch(error => {
+                    console.error('加载文章列表失败:', error);
+                    document.getElementById('postList').innerHTML = 
+                        '<li>错误: ' + error.message + '</li>';
+                });
+        });
+
+        function displayPosts(posts) {
+            const postList = document.getElementById('postList');
+            
+            if (!posts || posts.length === 0) {
+                postList.innerHTML = '<li>暂无文章</li>';
+                return;
+            }
+            
+            postList.innerHTML = '';
+            
+            posts.forEach(post => {
+                const li = document.createElement('li');
+                li.className = 'post-item';
+                
+                li.innerHTML = `
+                    <h2 class="post-title">${post.title}</h2>
+                    <div class="post-meta">发布于: ${formatDate(post.date)}</div>
+                    <p class="post-description">${post.description}</p>
+                    <a href="docs/${post.name}" class="read-more">阅读全文 →</a>
+                `;
+                
+                postList.appendChild(li);
+            });
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('zh-CN', options);
+        }
+    </script>
+</body>
+</html>
