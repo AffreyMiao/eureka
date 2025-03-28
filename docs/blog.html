@@ -1,73 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <!-- 添加 Markdown 解析库 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的博客</title>
+    <!-- 修正CSS路径：从上级目录引用 -->
+    <link rel="stylesheet" href="../styles.css">
+    <!-- Markdown解析库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* 新增预览窗口样式 */
+        /* 本地覆盖样式（可选） */
         #postContent {
             display: none;
             padding: 20px;
-            border: 1px solid #ddd;
-            margin-top: 20px;
-            background: white;
+            margin-top: 30px;
+            background: #f8f9fa;
             border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #3498db;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div id="postList"></div>
-    <div id="postContent"></div>
+    <header>
+        <h1>我的技术博客</h1>
+        <p>记录与分享学习历程</p>
+    </header>
+
+    <main>
+        <div id="postList" class="post-list">
+            <!-- 文章列表将动态加载到这里 -->
+        </div>
+        
+        <div id="postContent">
+            <!-- Markdown内容将渲染到这里 -->
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2023 版权所有</p>
+    </footer>
 
     <script>
-        // 修改后的加载逻辑
+        // 1. 加载文章列表
         document.addEventListener('DOMContentLoaded', async () => {
-            const posts = await loadPosts();
-            renderPostList(posts);
-        });
-
-        async function loadPosts() {
             try {
                 const response = await fetch('posts.json');
-                return await response.json();
+                const posts = await response.json();
+                renderPostList(posts);
             } catch (error) {
                 console.error('加载文章列表失败:', error);
-                return [];
+                document.getElementById('postList').innerHTML = `
+                    <div class="error">
+                        <p>加载失败，请检查：</p>
+                        <ul>
+                            <li>posts.json 文件是否存在</li>
+                            <li>是否通过本地服务器运行（如VS Code Live Server）</li>
+                        </ul>
+                    </div>`;
             }
-        }
+        });
 
+        // 2. 渲染文章列表
         function renderPostList(posts) {
             const container = document.getElementById('postList');
-            
+            container.innerHTML = '';
+
             posts.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.className = 'post-preview';
-                postElement.innerHTML = `
+                const postEl = document.createElement('article');
+                postEl.className = 'post-preview';
+                postEl.innerHTML = `
                     <h2>${post.title}</h2>
+                    <p class="meta">${new Date(post.date).toLocaleDateString('zh-CN')}</p>
                     <p>${post.description}</p>
-                    <button onclick="loadPostContent('${post.name}')">阅读全文</button>
+                    <button onclick="loadPost('${post.name}')">阅读全文</button>
                 `;
-                container.appendChild(postElement);
+                container.appendChild(postEl);
             });
         }
 
-        // 新增：加载并显示 Markdown 内容
-        async function loadPostContent(filename) {
+        // 3. 加载并渲染Markdown文章
+        async function loadPost(filename) {
             try {
-                const response = await fetch(`docs/${filename}`);
+                const response = await fetch(filename);
                 const markdown = await response.text();
+                
                 document.getElementById('postContent').innerHTML = `
-                    <button onclick="closePost()" style="float:right">关闭</button>
-                    ${marked.parse(markdown)}
+                    <span class="back-btn" onclick="backToList()">← 返回列表</span>
+                    <div class="markdown-body">${marked.parse(markdown)}</div>
                 `;
+                
+                // 显示内容区域
+                document.getElementById('postList').style.display = 'none';
                 document.getElementById('postContent').style.display = 'block';
             } catch (error) {
                 console.error('加载文章失败:', error);
-                alert('文章加载失败，请检查控制台');
+                alert('文章加载失败: ' + error.message);
             }
         }
 
-        function closePost() {
+        // 4. 返回列表视图
+        function backToList() {
+            document.getElementById('postList').style.display = 'block';
             document.getElementById('postContent').style.display = 'none';
         }
     </script>
