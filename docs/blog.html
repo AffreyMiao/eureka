@@ -21,23 +21,26 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('docs/posts.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('网络响应不正常');
-                    }
-                    return response.json();
-                })
-                .then(posts => {
-                    displayPosts(posts);
-                })
-                .catch(error => {
-                    console.error('加载文章列表失败:', error);
-                    document.getElementById('postList').innerHTML = 
-                        '<li>错误: ' + error.message + '</li>';
-                });
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('posts.json')
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return response.json();
+        })
+        .then(posts => {
+            displayPosts(posts);
+        })
+        .catch(error => {
+            console.error('加载失败:', error);
+            document.getElementById('postList').innerHTML = `
+                <li style="color: red;">
+                    错误: ${error.message}<br>
+                    请检查: <br>
+                    1. posts.json 是否存在?<br>
+                    2. 是否通过本地服务器运行? (如 VS Code Live Server)
+                </li>`;
         });
+});
 
         function displayPosts(posts) {
             const postList = document.getElementById('postList');
