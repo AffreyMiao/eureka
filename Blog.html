@@ -1,133 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blog</title>
+    <title>我的博客</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             color: #333;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #f9f9f9;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
         }
         h1 {
             color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
         .post-list {
             list-style: none;
             padding: 0;
         }
         .post-item {
-            margin-bottom: 25px;
-            padding: 15px;
-            border-left: 4px solid #3498db;
-            background-color: #f8f9fa;
-            transition: all 0.3s ease;
+            background: white;
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .post-item:hover {
-            background-color: #e9f7fe;
-            transform: translateX(5px);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .post-title {
-            font-size: 1.4em;
-            margin: 0 0 5px 0;
             color: #2c3e50;
-        }
-        .post-date {
-            color: #7f8c8d;
-            font-size: 0.9em;
+            margin-top: 0;
             margin-bottom: 10px;
         }
-        .no-posts {
+        .post-meta {
             color: #7f8c8d;
-            font-style: italic;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        .post-description {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .read-more {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #7f8c8d;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
-    <h1>Blog Posts</h1>
+    <header>
+        <h1>我的个人博客</h1>
+        <p>分享知识与见解</p>
+    </header>
+    
     <ul id="postList" class="post-list">
-        <li class="no-posts">Loading posts...</li>
+        <!-- 文章列表将在这里动态生成 -->
     </ul>
+    
+    <footer>
+        <p>© 2023 我的博客. 所有文章均为原创.</p>
+    </footer>
 
     <script>
+        // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
-            // Fetch the list of markdown files from the docs folder
-            fetchMarkdownFiles();
+            // 加载文章列表
+            fetch('posts.json')
+                .then(response => response.json())
+                .then(posts => {
+                    displayPosts(posts);
+                })
+                .catch(error => {
+                    console.error('加载文章列表失败:', error);
+                    document.getElementById('postList').innerHTML = 
+                        '<li>暂时无法加载文章列表，请稍后再试。</li>';
+                });
         });
 
-        function fetchMarkdownFiles() {
-            // In a real implementation, you would need server-side code to list files
-            // This is a simulation that assumes you know the files in advance
-            
-            // Simulated list of markdown files (in a real scenario, this would come from a server API)
-            const simulatedFiles = [
-                { name: 'getting-started.md', lastModified: '2023-05-15' },
-                { name: 'advanced-tips.md', lastModified: '2023-06-22' },
-                { name: 'project-update.md', lastModified: '2023-07-10' }
-            ];
-
-            displayPosts(simulatedFiles);
-            
-            // In a real implementation, you might use something like:
-            // fetch('/list-markdown-files') // This endpoint would need to be created server-side
-            //     .then(response => response.json())
-            //     .then(files => displayPosts(files))
-            //     .catch(error => {
-            //         console.error('Error fetching files:', error);
-            //         document.getElementById('postList').innerHTML = 
-            //             '<li class="no-posts">Unable to load posts at this time.</li>';
-            //     });
-        }
-
-        function displayPosts(files) {
+        // 显示文章列表
+        function displayPosts(posts) {
             const postList = document.getElementById('postList');
             
-            if (!files || files.length === 0) {
-                postList.innerHTML = '<li class="no-posts">No blog posts found.</li>';
+            if (!posts || posts.length === 0) {
+                postList.innerHTML = '<li>暂无文章</li>';
                 return;
             }
-
+            
+            // 清空现有内容
             postList.innerHTML = '';
             
-            files.forEach(file => {
-                // Extract title from filename (remove .md and replace hyphens with spaces)
-                let title = file.name.replace('.md', '').replace(/-/g, ' ');
-                // Capitalize first letter of each word
-                title = title.split(' ').map(word => 
-                    word.charAt(0).toUpperCase() + word.slice(1)
-                ).join(' ');
+            // 为每篇文章创建列表项
+            posts.forEach(post => {
+                const li = document.createElement('li');
+                li.className = 'post-item';
                 
-                const listItem = document.createElement('li');
-                listItem.className = 'post-item';
+                li.innerHTML = `
+                    <h2 class="post-title">${post.title}</h2>
+                    <div class="post-meta">发布于: ${formatDate(post.date)}</div>
+                    <p class="post-description">${post.description}</p>
+                    <a href="docs/${post.name}" class="read-more">阅读全文 →</a>
+                `;
                 
-                const titleElement = document.createElement('h2');
-                titleElement.className = 'post-title';
-                titleElement.textContent = title;
-                
-                const dateElement = document.createElement('div');
-                dateElement.className = 'post-date';
-                dateElement.textContent = `Last updated: ${formatDate(file.lastModified)}`;
-                
-                // Create a link to view the markdown file
-                const link = document.createElement('a');
-                link.href = `docs/${file.name}`;
-                link.appendChild(titleElement);
-                link.appendChild(dateElement);
-                
-                listItem.appendChild(link);
-                postList.appendChild(listItem);
+                postList.appendChild(li);
             });
         }
 
+        // 格式化日期
         function formatDate(dateString) {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString(undefined, options);
+            return new Date(dateString).toLocaleDateString('zh-CN', options);
         }
     </script>
 </body>
