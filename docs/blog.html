@@ -1,75 +1,74 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的博客</title>
-<link rel="stylesheet" href="../styles.css">
+    <!-- 添加 Markdown 解析库 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* 新增预览窗口样式 */
+        #postContent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            background: white;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>我的个人博客</h1>
-        <p>分享知识与见解</p>
-    </header>
-    
-    <ul id="postList" class="post-list">
-        <!-- 文章列表将在这里动态生成 -->
-    </ul>
-    
-    <footer>
-        <p>© 2025 我的博客. 所有文章均为原创.</p>
-    </footer>
+    <div id="postList"></div>
+    <div id="postContent"></div>
 
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('posts.json')
-        .then(response => {
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            return response.json();
-        })
-        .then(posts => {
-            displayPosts(posts);
-        })
-        .catch(error => {
-            console.error('加载失败:', error);
-            document.getElementById('postList').innerHTML = `
-                <li style="color: red;">
-                    错误: ${error.message}<br>
-                    请检查: <br>
-                    1. posts.json 是否存在?<br>
-                    2. 是否通过本地服务器运行? (如 VS Code Live Server)
-                </li>`;
+        // 修改后的加载逻辑
+        document.addEventListener('DOMContentLoaded', async () => {
+            const posts = await loadPosts();
+            renderPostList(posts);
         });
-});
 
-        function displayPosts(posts) {
-            const postList = document.getElementById('postList');
-            
-            if (!posts || posts.length === 0) {
-                postList.innerHTML = '<li>暂无文章</li>';
-                return;
+        async function loadPosts() {
+            try {
+                const response = await fetch('posts.json');
+                return await response.json();
+            } catch (error) {
+                console.error('加载文章列表失败:', error);
+                return [];
             }
-            
-            postList.innerHTML = '';
+        }
+
+        function renderPostList(posts) {
+            const container = document.getElementById('postList');
             
             posts.forEach(post => {
-                const li = document.createElement('li');
-                li.className = 'post-item';
-                
-                li.innerHTML = `
-                    <h2 class="post-title">${post.title}</h2>
-                    <div class="post-meta">发布于: ${formatDate(post.date)}</div>
-                    <p class="post-description">${post.description}</p>
-                    <a href="docs/${post.name}" class="read-more">阅读全文 →</a>
+                const postElement = document.createElement('div');
+                postElement.className = 'post-preview';
+                postElement.innerHTML = `
+                    <h2>${post.title}</h2>
+                    <p>${post.description}</p>
+                    <button onclick="loadPostContent('${post.name}')">阅读全文</button>
                 `;
-                
-                postList.appendChild(li);
+                container.appendChild(postElement);
             });
         }
 
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('zh-CN', options);
+        // 新增：加载并显示 Markdown 内容
+        async function loadPostContent(filename) {
+            try {
+                const response = await fetch(`docs/${filename}`);
+                const markdown = await response.text();
+                document.getElementById('postContent').innerHTML = `
+                    <button onclick="closePost()" style="float:right">关闭</button>
+                    ${marked.parse(markdown)}
+                `;
+                document.getElementById('postContent').style.display = 'block';
+            } catch (error) {
+                console.error('加载文章失败:', error);
+                alert('文章加载失败，请检查控制台');
+            }
+        }
+
+        function closePost() {
+            document.getElementById('postContent').style.display = 'none';
         }
     </script>
 </body>
