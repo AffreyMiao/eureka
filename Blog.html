@@ -2,82 +2,133 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>博客列表</title>
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/blog_list.css">
+    <title>My Blog</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .post-list {
+            list-style: none;
+            padding: 0;
+        }
+        .post-item {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        .post-item:hover {
+            background-color: #e9f7fe;
+            transform: translateX(5px);
+        }
+        .post-title {
+            font-size: 1.4em;
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+        }
+        .post-date {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .no-posts {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <div class="nav">
-        <img src="img/风景.jpeg" alt="">
-        <span>我的博客系统</span>
-        <!-- 空白元素 实现占位 -->
-        <div class="spacer"></div>
-        <a href="blog_list.html">主页</a>
-        <a href="blog_edit.html">写博客</a>
-        <a href="#">注销</a>
-    </div>
-    <!-- 这里的.container作为页面的版心 -->
-    <div class="container">
-        <!-- 左侧个人信息 -->
-        <div class="left">
-            <!-- 表示整个用户的信息区域 -->
-            <div class="card">
-                <img src="img/萌萌宝宝.jpg" alt="">
-                <h3>萌萌宝宝</h3>
-                <a href="#">github地址</a>
-                <div class="counter">
-                    <span>文章</span>
-                    <span>分类</span>
-                </div>
-                <div class="counter">
-                    <span>2</span>
-                    <span>1</span>
-                </div>
-            </div>
-        </div>
-        <!-- 右侧内容详情 -->
-        <div class="right">
-            <!-- .blog就对应表示一个博客 -->
-            <div class="blog">
-                <!-- 博客标题 -->
-                <div class="title">
-                    我的第一篇作文
-                </div>
-                <!-- 博客发布时间 -->
-                <div class="date">
-                    2022-05-22 15:34:00
-                </div>
-                <!-- 博客的摘要 -->
-                <div class="desc">
-                    所有的流浪都是归程
-         红尘路远，岁月无声，我们不过是行路之人，以过客身份，找寻归依。远方，应该是有诗的。——题记
-        从山脚到山顶需要走多久？从望岳到登高，便是杜甫的一生。李白天赋难学，
-                </div>
-                <a href="#">查看全文 &gt;&gt;</a>
-            </div>
-            <div class="blog">
-                <!-- 博客标题 -->
-                <div class="title">
-                    我的第二篇作文
-                </div>
-                <!-- 博客发布时间 -->
-                <div class="date">
-                    2022-05-22 15:34:00
-                </div>
-                <!-- 博客的摘要 -->
-                <div class="desc">
-                    一草一木皆是情
-                    人生中最好的境界，来自于内心的丰盈。——题记
-               读《人间草木》，感受的是作者汪曾祺的草木情怀，更是他的诗意人生。《人间草木》是汪曾祺禁
-                </div>
-                <a href="#">查看全文 &gt;&gt;</a>
-            </div>
-        </div>
-    </div>
-</div>
+    <h1>Blog Posts</h1>
+    <ul id="postList" class="post-list">
+        <li class="no-posts">Loading posts...</li>
+    </ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch the list of markdown files from the docs folder
+            fetchMarkdownFiles();
+        });
+
+        function fetchMarkdownFiles() {
+            // In a real implementation, you would need server-side code to list files
+            // This is a simulation that assumes you know the files in advance
+            
+            // Simulated list of markdown files (in a real scenario, this would come from a server API)
+            const simulatedFiles = [
+                { name: 'getting-started.md', lastModified: '2023-05-15' },
+                { name: 'advanced-tips.md', lastModified: '2023-06-22' },
+                { name: 'project-update.md', lastModified: '2023-07-10' }
+            ];
+
+            displayPosts(simulatedFiles);
+            
+            // In a real implementation, you might use something like:
+            // fetch('/list-markdown-files') // This endpoint would need to be created server-side
+            //     .then(response => response.json())
+            //     .then(files => displayPosts(files))
+            //     .catch(error => {
+            //         console.error('Error fetching files:', error);
+            //         document.getElementById('postList').innerHTML = 
+            //             '<li class="no-posts">Unable to load posts at this time.</li>';
+            //     });
+        }
+
+        function displayPosts(files) {
+            const postList = document.getElementById('postList');
+            
+            if (!files || files.length === 0) {
+                postList.innerHTML = '<li class="no-posts">No blog posts found.</li>';
+                return;
+            }
+
+            postList.innerHTML = '';
+            
+            files.forEach(file => {
+                // Extract title from filename (remove .md and replace hyphens with spaces)
+                let title = file.name.replace('.md', '').replace(/-/g, ' ');
+                // Capitalize first letter of each word
+                title = title.split(' ').map(word => 
+                    word.charAt(0).toUpperCase() + word.slice(1)
+                ).join(' ');
+                
+                const listItem = document.createElement('li');
+                listItem.className = 'post-item';
+                
+                const titleElement = document.createElement('h2');
+                titleElement.className = 'post-title';
+                titleElement.textContent = title;
+                
+                const dateElement = document.createElement('div');
+                dateElement.className = 'post-date';
+                dateElement.textContent = `Last updated: ${formatDate(file.lastModified)}`;
+                
+                // Create a link to view the markdown file
+                const link = document.createElement('a');
+                link.href = `docs/${file.name}`;
+                link.appendChild(titleElement);
+                link.appendChild(dateElement);
+                
+                listItem.appendChild(link);
+                postList.appendChild(listItem);
+            });
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+    </script>
 </body>
 </html>
-
