@@ -1,44 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>ICP Training NV Calculator</title>
+    <title>ICP培训NV计算器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        .container { max-width: 1000px; margin: 20px auto; padding: 20px; }
-        .section { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; }
-        .input-group { margin: 10px 0; }
-        label { display: inline-block; width: 200px; }
-        input, select { width: 250px; padding: 5px; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .calc-btn { background: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; }
-        .result { background: #f0f0f0; padding: 15px; margin-top: 20px; }
-    /* 新增注解样式 */
-    .annotation {
-        display: none;
-        background: #fff;
-        border: 2px solid #4CAF50;
-        padding: 20px;
-        margin-top: 15px;
-        border-radius: 5px;
-    }
-    .annotation table {
-        margin: 10px 0;
-    }
-    .annotation td {
-        vertical-align: top;
-        padding: 8px;
-    }
-    .annotation code {
-        background: #f4f4f4;
-        padding: 2px 5px;
-        border-radius: 3px;
-    }
+        :root {
+            --primary-color: #4CAF50;
+            --background: #f5f5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            background: var(--background);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            margin: 10px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .calc-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 16px;
+            margin: 10px 0;
+            touch-action: manipulation;
+        }
+
+        .annotation {
+            display: none;
+            background: #fff;
+            border: 2px solid #4CAF50;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+
+        .annotation table {
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .annotation code {
+            background: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 480px) {
+            td {
+                padding-left: 50%;
+                position: relative;
+            }
+
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 8px;
+                font-weight: bold;
+                color: #444;
+            }
+
+            #trainersTable td {
+                display: block;
+                width: 100%;
+                padding: 8px 8px 8px 50%;
+            }
+
+            #trainersTable td:last-child {
+                text-align: right;
+                padding-left: 8px;
+            }
+
+            #trainersTable button {
+                padding: 8px 12px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>ICP Training NV Calculator</h2>
+        <h2>ICP培训费用计算器</h2>
 
         <!-- 培训基本信息 -->
         <div class="section">
@@ -63,7 +157,7 @@
                 <input type="number" id="participants" min="1">
             </div>
             <div class="input-group">
-                <label>培训所在地区:</label>
+                <label>培训地区:</label>
                 <select id="region">
                     <option value="150">马来西亚</option>
                     <option value="200">亚洲地区</option>
@@ -81,25 +175,25 @@
                     <tr>
                         <th>姓名</th>
                         <th>职位</th>
-                        <th>年基本工资</th>
+                        <th>年薪资</th>
                         <th>国籍</th>
-                        <th>参与天数</th>
+                        <th>天数</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="number" min="0"></td>
-                        <td>
+                        <td data-label="姓名"><input type="text"></td>
+                        <td data-label="职位"><input type="text"></td>
+                        <td data-label="年薪资"><input type="number" min="0"></td>
+                        <td data-label="国籍">
                             <select>
                                 <option value="2.7">本地</option>
                                 <option value="3.3">外籍</option>
                             </select>
                         </td>
-                        <td><input type="number" min="1"></td>
-                        <td><button onclick="addTrainerRow()">+</button></td>
+                        <td data-label="天数"><input type="number" min="1"></td>
+                        <td data-label="操作"><button onclick="addTrainerRow()">+</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -110,73 +204,87 @@
             <h3>直接成本（DC）</h3>
             <div id="dcItems">
                 <div class="input-group">
-                    <input type="text" placeholder="费用说明" style="width: 300px;">
+                    <input type="text" placeholder="费用说明">
                     <input type="number" placeholder="金额（RM）" min="0">
-                    <button onclick="addDCItem()">+ 添加项目</button>
+                    <button onclick="addDCItem()">+ 添加</button>
                 </div>
             </div>
         </div>
-<!-- 新增注解内容 -->
-<div id="annotation" class="annotation">
-    <h3>计算逻辑说明</h3>
-    
-    <h4>1. 培训师每日费率 (DRT)</h4>
-    <table>
-        <tr>
-            <td>公式：</td>
-            <td><code>DRT = (YBS × SF ÷ 12 ÷ 22) × DF</code></td>
-        </tr>
-        <tr>
-            <td>参数说明：</td>
-            <td>
-                • YBS: 年基本工资 (Yearly Basic Salary)<br>
-                • SF: 薪资系数 (本地=2.7, 外籍=3.3)<br>
-                • DF: 时长系数 (
-                    <span style="color:blue">1-5天=1.6</span>, 
-                    <span style="color:green">6-22天=1.3</span>, 
-                    <span style="color:red">23天以上=1.0</span>)
-            </td>
-        </tr>
-    </table>
 
-    <h4>2. 培训师成本 (COT)</h4>
-    <code>COT = ∑(DRT × 参与天数)</code>
-    <p>每个培训师单独计算后累加</p>
-
-    <h4>3. 模块准备率 (MPR)</h4>
-    <code>MPR = ∑(DRT × 参与天数 × MDF)</code>
-    <p>• MDF系数: 技术类=7, 非技术类=3</p>
-
-    <h4>4. 标准成本 (SC)</h4>
-    <table>
-        <tr>
-            <th>项目</th>
-            <th>计算公式</th>
-        </tr>
-        <tr>
-            <td>餐饮费用</td>
-            <td><code>地区费率 × 天数 × 人数</code>PS:亚洲RM200</td>
-        </tr>
-        <tr>
-            <td>印刷费用</td>
-            <td><code>RM100 × 天数 × 人数</code></td>
-        </tr>
-        <tr>
-            <td>场地使用</td>
-            <td><code>RM1,500 × 天数</code></td>
-        </tr>
-        <tr>
-            <td>行政费用</td>
-            <td><code>RM2,500 × 天数 × 0.3</code></td>
-        </tr>
-    </table>
-
-    <h4>5. 总费用计算</h4>
-    <code>总费用 = COT + MPR + SC + DC</code>
-    <p>• DC: 直接成本需手动输入，避免与SC重复计算</p>
-</div>
         <button class="calc-btn" onclick="calculate()">计算总费用</button>
-<button class="calc-btn" onclick="toggleAnnotation()">显示计算公式注解</button>
+        <button class="calc-btn" onclick="toggleAnnotation()">显示公式说明</button>
+
+        <!-- 公式注解 -->
+        <div id="annotation" class="annotation">
+            <h3>计算逻辑说明</h3>
+            <!-- 保持原有公式内容 -->
+<h4>1. 培训师每日费率 (DRT)</h4>
+<table>
+    <tr>
+        <td>公式：</td>
+        <td><code>DRT = (YBS × SF ÷ 12 ÷ 22) × DF</code></td>
+    </tr>
+    <tr>
+        <td>参数说明：</td>
+        <td>
+            • YBS: 年基本工资 (Yearly Basic Salary)<br>
+            • SF: 薪资系数 
+                <span style="color:blue">本地=2.7</span>, 
+                <span style="color:green">外籍=3.3</span><br>
+            • DF: 时长系数 
+                <span style="color:blue">1-5天=1.6</span>, 
+                <span style="color:green">6-22天=1.3</span>, 
+                <span style="color:red">≥23天=1.0</span>
+        </td>
+    </tr>
+</table>
+
+<h4>2. 培训师成本 (COT)</h4>
+<code>COT = Σ(DRT × 参与天数)</code>
+<p>• 每个培训师单独计算后求和</p>
+
+<h4>3. 模块准备率 (MPR)</h4>
+<code>MPR = Σ(DRT × 参与天数 × MDF)</code>
+<p>• MDF系数: 
+    <span style="color:blue">技术类=7</span>, 
+    <span style="color:green">非技术类=3</span>
+</p>
+
+<h4>4. 标准成本 (SC)</h4>
+<table>
+    <tr>
+        <th>项目</th>
+        <th>计算公式</th>
+        <th>示例</th>
+    </tr>
+    <tr>
+        <td>餐饮费用</td>
+        <td><code>地区费率 × 天数 × 人数</code></td>
+        <td>亚洲地区：200×5天×10人=10,000</td>
+    </tr>
+    <tr>
+        <td>印刷费用</td>
+        <td><code>100 × 天数 × 人数</code></td>
+        <td>100×5天×10人=5,000</td>
+    </tr>
+    <tr>
+        <td>场地使用</td>
+        <td><code>1,500 × 天数</code></td>
+        <td>1,500×5天=7,500</td>
+    </tr>
+    <tr>
+        <td>行政费用</td>
+        <td><code>2,500 × 天数 × 0.3</code></td>
+        <td>2,500×5×0.3=3,750</td>
+    </tr>
+</table>
+
+<h4>5. 总费用计算</h4>
+<code>总费用 = COT + MPR + SC + DC</code>
+<p>• DC需手动输入，且不与SC重复计算<br>
+• 示例：当SC包含场地费时，DC不应再列场地租赁费</p>
+        </div>
+
         <!-- 计算结果 -->
         <div class="section result">
             <h3>计算结果</h3>
@@ -194,17 +302,17 @@
         function addTrainerRow() {
             const newRow = `
                 <tr>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="number" min="0"></td>
-                    <td>
+                    <td data-label="姓名"><input type="text"></td>
+                    <td data-label="职位"><input type="text"></td>
+                    <td data-label="年薪资"><input type="number" min="0"></td>
+                    <td data-label="国籍">
                         <select>
                             <option value="2.7">本地</option>
                             <option value="3.3">外籍</option>
                         </select>
                     </td>
-                    <td><input type="number" min="1"></td>
-                    <td><button onclick="this.parentElement.parentElement.remove()">-</button></td>
+                    <td data-label="天数"><input type="number" min="1"></td>
+                    <td data-label="操作"><button onclick="this.parentElement.parentElement.remove()">-</button></td>
                 </tr>`;
             document.querySelector('#trainersTable tbody').insertAdjacentHTML('beforeend', newRow);
         }
@@ -213,7 +321,7 @@
         function addDCItem() {
             const newItem = `
                 <div class="input-group">
-                    <input type="text" placeholder="费用说明" style="width: 300px;">
+                    <input type="text" placeholder="费用说明">
                     <input type="number" placeholder="金额（RM）" min="0">
                     <button onclick="this.parentElement.remove()">-</button>
                 </div>`;
@@ -222,62 +330,50 @@
 
         // 主计算函数
         function calculate() {
-            // 获取基础数据
             const duration = parseInt(document.getElementById('duration').value) || 0;
             const courseType = document.getElementById('courseType').value;
             const participants = parseInt(document.getElementById('participants').value) || 0;
             const regionRate = parseInt(document.getElementById('region').value) || 0;
 
-            // 计算培训师成本（COT）和MPR
             let cotTotal = 0, mprTotal = 0;
             document.querySelectorAll('#trainersTable tbody tr').forEach(row => {
-                const ybs = parseFloat(row.children[2].querySelector('input').value) || 0;
-                const sf = parseFloat(row.children[3].querySelector('select').value);
-                const doi = parseFloat(row.children[4].querySelector('input').value) || 0;
+                const ybs = parseFloat(row.querySelector('[data-label="年薪资"] input').value) || 0;
+                const sf = parseFloat(row.querySelector('[data-label="国籍"] select').value);
+                const doi = parseFloat(row.querySelector('[data-label="天数"] input').value) || 0;
 
-                // 计算DRT
-                let df;
-                if(duration <= 5) df = 1.6;
-                else if(duration <= 22) df = 1.3;
-                else df = 1.0;
-
+                let df = duration <= 5 ? 1.6 : duration <= 22 ? 1.3 : 1.0;
                 const drt = (ybs * sf / 12 / 22) * df;
-                const cot = drt * doi;
-                cotTotal += cot;
+                cotTotal += drt * doi;
 
-                // 计算MPR
                 const mdf = courseType === 'technical' ? 7 : 3;
-                const mpr = drt * doi * mdf;
-                mprTotal += mpr;
+                mprTotal += drt * doi * mdf;
             });
 
-            // 计算标准成本（SC）
             const meals = regionRate * duration * participants;
             const printing = 100 * duration * participants;
             const venue = 1500 * duration;
             const admin = 2500 * duration * 0.3;
             const scTotal = meals + printing + venue + admin;
 
-            // 计算直接成本（DC）
             let dcTotal = 0;
-            document.querySelectorAll('#dcItems .input-group').forEach(item => {
-                dcTotal += parseFloat(item.querySelector('input[type="number"]').value) || 0;
+            document.querySelectorAll('#dcItems input[type="number"]').forEach(input => {
+                dcTotal += parseFloat(input.value) || 0;
             });
 
-            // 显示结果
             document.getElementById('cotTotal').textContent = cotTotal.toFixed(2);
             document.getElementById('mprTotal').textContent = mprTotal.toFixed(2);
             document.getElementById('scTotal').textContent = scTotal.toFixed(2);
             document.getElementById('dcTotal').textContent = dcTotal.toFixed(2);
             document.getElementById('totalCost').textContent = (cotTotal + mprTotal + scTotal + dcTotal).toFixed(2);
         }
- // 注解显示切换
-    function toggleAnnotation() {
-        const annoDiv = document.getElementById('annotation');
-        annoDiv.style.display = annoDiv.style.display === 'block' ? 'none' : 'block';
-        document.querySelector('button[onclick="toggleAnnotation()"]').textContent = 
-            annoDiv.style.display === 'block' ? '隐藏计算公式' : '显示计算公式注解';
-    }
+
+        // 切换公式说明
+        function toggleAnnotation() {
+            const annoDiv = document.getElementById('annotation');
+            annoDiv.style.display = annoDiv.style.display === 'block' ? 'none' : 'block';
+            document.querySelector('button[onclick="toggleAnnotation()"]').textContent = 
+                annoDiv.style.display === 'block' ? '隐藏公式说明' : '显示公式说明';
+        }
     </script>
 </body>
 </html>
