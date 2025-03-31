@@ -169,15 +169,15 @@
 
         <!-- 培训师信息 -->
         <div class="section">
-            <h3>培训师信息（可将培训日期汇总按1人计算）</h3>
+            <h3>培训师信息（可简单汇总天数按1人计算）</h3>
             <table id="trainersTable">
                 <thead>
                     <tr>
-                        <th>姓名</th>
+                        <th>姓名*</th>
                         <th>职位</th>
-                        <th>年薪资</th>
-                        <th>国籍</th>
-                        <th>天数</th>
+                        <th>年薪资RM*</th>
+                        <th>国籍*</th>
+                        <th>天数*</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -204,7 +204,7 @@
             <h3>直接成本（DC）</h3>
             <div id="dcItems">
                 <div class="input-group">
-                    <input type="text" placeholder="费用说明，除每人伙食、打印课本、场地、行政管理">
+                    <input type="text" placeholder="费用说明：除伙食、打印课本、场地综合、行政管理">
                     <input type="number" placeholder="金额（RM）" min="0">
                     <button onclick="addDCItem()">+ 添加</button>
                 </div>
@@ -321,7 +321,7 @@
         function addDCItem() {
             const newItem = `
                 <div class="input-group">
-                    <input type="text" placeholder="费用说明">
+                    <input type="text" placeholder="费用说明：除伙食、打印课本、场地综合、行政管理">
                     <input type="number" placeholder="金额（RM）" min="0">
                     <button onclick="this.parentElement.remove()">-</button>
                 </div>`;
