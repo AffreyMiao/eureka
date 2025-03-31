@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行指南</title>
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --dark: #292F36;
+            --light: #F7FFF7;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            margin-top: 40px;
+            background-color: rgba(255,255,255,0.7);
+            padding: 10px 15px;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .food-card {
+            background: linear-gradient(135deg, #FFF5F5, #F0FFF4);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .michelin-link {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(255,107,107,0.3);
+        }
+        
+        .michelin-link:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255,107,107,0.4);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .card h3 {
+            color: var(--dark);
+            margin-top: 0;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>马来西亚</h1>
+            <p>多元文化的美食与旅行天堂</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="section">
+            <h2>好吃的推荐</h2>
+            
+            <div class="food-card">
+                <h3>街头美食</h3>
+                <p>马来西亚的街头美食是真正的文化瑰宝，融合了马来、中华和印度风味：</p>
+                <ul>
+                    <li><strong>槟城炒粿条</strong> - 槟城最著名的街头小吃</li>
+                    <li><strong>沙爹</strong> - 香烤肉串配花生酱</li>
+                    <li><strong>椰浆饭</strong> - 马来西亚的国民早餐</li>
+                    <li><strong>叻沙</strong> - 香辣椰奶汤面</li>
+                </ul>
+            </div>
+            
+            <div class="food-card">
+                <h3>米其林实惠款推荐</h3>
+                <p>马来西亚也有许多价格亲民的米其林推荐餐厅：</p>
+                <ul>
+                    <li><strong>槟城姐妹咖喱面</strong> - 米其林必比登推荐</li>
+                    <li><strong>吉隆坡何荣记</strong> - 传统广式烧腊</li>
+                    <li><strong>马六甲中华茶室</strong> - 著名海南鸡饭</li>
+                </ul>
+                <a href="https://guide.michelin.com/sg/zh_CN/selection/malaysia/restaurants/affordable" class="michelin-link" target="_blank">查看全部米其林实惠餐厅 →</a>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>航班旅行建议</h2>
+            
+            <div class="card">
+                <h3>最佳旅行时间</h3>
+                <p>马来西亚全年温暖，但最佳旅行时间是11月至2月（避开雨季）。</p>
+            </div>
+            
+            <div class="card">
+                <h3>主要机场</h3>
+                <ul>
+                    <li><strong>吉隆坡国际机场(KUL)</strong> - 马来西亚主要国际门户</li>
+                    <li><strong>槟城国际机场(PEN)</strong> - 北马地区主要机场</li>
+                    <li><strong>兰卡威国际机场(LGK)</strong> - 度假岛屿门户</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>航空公司推荐</h3>
+                <ul>
+                    <li><strong>马来西亚航空</strong> - 国家航空公司，服务优质</li>
+                    <li><strong>亚航</strong> - 亚洲领先的低成本航空</li>
+                    <li><strong>马印航空</strong> - 国内航线选择多</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>居住点建议</h2>
+            
+            <div class="card">
+                <h3>吉隆坡</h3>
+                <ul>
+                    <li><strong>武吉免登区</strong> - 购物中心集中，夜生活丰富</li>
+                    <li><strong>KLCC</strong> - 双子塔周边，高档酒店区</li>
+                    <li><strong>唐人街</strong> - 经济实惠，文化氛围浓厚</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>槟城</h3>
+                <ul>
+                    <li><strong>乔治市</strong> - 世界文化遗产区，美食集中</li>
+                    <li><strong>巴都丁宜</strong> - 海滩度假区</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>兰卡威</h3>
+                <ul>
+                    <li><strong>珍南海滩</strong> - 最热闹的海滩区</li>
+                    <li><strong>丹绒鲁</strong> - 安静奢华度假村区</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
