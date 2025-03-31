@@ -6,7 +6,22 @@
     <title>欢迎来到Eureka</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-    
+        <script>
+    function checkPassword() {
+        const password = "eureka123"; // 修改为您想要的密码
+        const input = document.getElementById('passwordInput').value;
+        
+        if (input === password) {
+            document.getElementById('passwordOverlay').style.display = 'none';
+        } else {
+            document.getElementById('errorMsg').style.display = 'block';
+        }
+    }
+    // 支持回车键验证
+    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') checkPassword();
+    });
+</script>
 <body>
     <div id="passwordOverlay" style="
     position: fixed;
@@ -80,21 +95,6 @@
     </div>
 </body>
 
-    <script>
-    function checkPassword() {
-        const password = "eureka123"; // 修改为您想要的密码
-        const input = document.getElementById('passwordInput').value;
-        
-        if (input === password) {
-            document.getElementById('passwordOverlay').style.display = 'none';
-        } else {
-            document.getElementById('errorMsg').style.display = 'block';
-        }
-    }
-    // 支持回车键验证
-    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') checkPassword();
-    });
-</script>
+
     
 </html>
