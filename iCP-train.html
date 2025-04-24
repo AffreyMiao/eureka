@@ -246,8 +246,8 @@
 <h4>3. 模块准备率 (MPR)</h4>
 <code>MPR = Σ(DRT × 参与天数 × MDF)</code>
 <p>• MDF系数: 
-    <span style="color:blue">技术类=7</span>, 
-    <span style="color:green">非技术类=3</span>
+    <span style="color:blue">技术类=7(暂按15申报计算)</span>, 
+    <span style="color:green">非技术类=3(暂按7申报计算)</span>
 </p>
 
 <h4>4. 标准成本 (SC)</h4>
@@ -345,7 +345,7 @@
                 const drt = (ybs * sf / 12 / 22) * df;
                 cotTotal += drt * doi;
 
-                const mdf = courseType === 'technical' ? 7 : 3;
+                const mdf = courseType === 'technical' ? 15 : 7;
                 mprTotal += drt * doi * mdf;
             });
 
